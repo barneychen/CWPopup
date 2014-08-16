@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '4.3'
   s.source = { :git => "https://github.com/cczallen/CWPopup.git",
                :tag => s.version.to_s }
-  s.source_files  = 'CWPopup'
+  s.source_files  = 'CWPopup', 'CWPopup/CWPopup+AnimationStyle/*.{h,m}'
   s.requires_arc = true,
   s.compiler_flags = '-fmodules'
 end
