@@ -96,6 +96,8 @@ NSString const *CWPopupPositionPercentageOffsetKey;
 		frame.origin.x = dx;
 		frame.origin.y = dy;
 	}
+	frame.origin.x += self.popupViewOffset.x;
+	frame.origin.y += self.popupViewOffset.y;
 	
     return frame;
 }
