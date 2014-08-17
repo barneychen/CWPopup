@@ -18,7 +18,7 @@ NSString const *CWPopupKey;
 NSString const *CWBlurViewKey;
 NSString const *CWUseBlurForPopup;
 
-NSString const *CWUseFadeViewForPopupKEY = @"CWUseFadeViewForPopupKEY";
+NSString const *CWPopupFadeViewColorKEY = @"CWPopupFadeViewColorKEY";
 NSString const *CWPopupPresentingKey = @"CWPopupPresentingKey";
 NSString const *CWPopupPositionPercentageOffsetKey = @"CWPopupPositionPercentageOffsetKey";
 
@@ -36,7 +36,7 @@ NSString const *CWPopupPositionPercentageOffsetKey = @"CWPopupPositionPercentage
 @end
 
 @implementation UIViewController (CWPopupWithAnimationStyle)
-@dynamic useFadeViewForPopup;
+@dynamic popupFadeViewColor;
 @dynamic popupPresentingViewController;
 @dynamic popupPositionPercentageOffset;
 
@@ -142,14 +142,15 @@ NSString const *CWPopupPositionPercentageOffsetKey = @"CWPopupPositionPercentage
         // blurview
         if (self.useBlurForPopup) {
             [self addBlurView];
-        } else if(self.useFadeViewForPopup) {
+        } else {
             UIView *fadeView = [UIView new];
             if (UIDeviceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
                 fadeView.frame = [UIScreen mainScreen].bounds;
             } else {
                 fadeView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width);
             }
-            fadeView.backgroundColor = [UIColor blackColor];
+            fadeView.backgroundColor = (self.popupFadeViewColor)? self.popupFadeViewColor : [UIColor blackColor];
+			fadeView.userInteractionEnabled = NO;
             fadeView.alpha = 0.0f;
             [self.view addSubview:fadeView];
             objc_setAssociatedObject(self, &CWBlurViewKey, fadeView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -288,13 +289,12 @@ NSString const *CWPopupPositionPercentageOffsetKey = @"CWPopupPositionPercentage
 
 
 #pragma mark - getter & setter
-- (void)setUseFadeViewForPopup:(BOOL)useFadeViewForPopup {
-    objc_setAssociatedObject(self, &CWUseFadeViewForPopupKEY, [NSNumber numberWithBool:useFadeViewForPopup], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)setPopupFadeViewColor:(UIColor *)popupFadeViewColor {
+    objc_setAssociatedObject(self, &CWPopupFadeViewColorKEY, popupFadeViewColor, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (BOOL)useFadeViewForPopup {
-	NSNumber *result = objc_getAssociatedObject(self, &CWUseFadeViewForPopupKEY);
-    return [result boolValue];
+- (UIColor *)popupFadeViewColor  {
+    return objc_getAssociatedObject(self, &CWPopupFadeViewColorKEY);
 }
 
 - (void)setPopupPresentingViewController:(UIViewController *)popupPresentingViewController {

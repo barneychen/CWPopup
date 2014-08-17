@@ -44,6 +44,7 @@
     tapRecognizer.delegate = self;
     [self.view addGestureRecognizer:tapRecognizer];
     self.useBlurForPopup = YES;
+//	self.popupFadeViewColor = [UIColor clearColor];
 }
 
 - (void)didReceiveMemoryWarning

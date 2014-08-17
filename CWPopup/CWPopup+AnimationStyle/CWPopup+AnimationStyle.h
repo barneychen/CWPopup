@@ -21,7 +21,7 @@ typedef NS_ENUM(NSInteger, PopupAnimationStyle) {
 
 @interface UIViewController (CWPopupWithAnimationStyle)
 
-@property (nonatomic, readwrite) BOOL useFadeViewForPopup;
+@property (nonatomic, readwrite) UIColor *popupFadeViewColor;
 @property (nonatomic, readwrite) UIViewController *popupPresentingViewController;
 @property (nonatomic, readwrite) UIOffset popupPositionPercentageOffset;
 
