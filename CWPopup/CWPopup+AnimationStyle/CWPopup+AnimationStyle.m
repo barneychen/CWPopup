@@ -150,7 +150,7 @@ NSString const *CWPopupPositionPercentageOffsetKey = @"CWPopupPositionPercentage
                 fadeView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width);
             }
             fadeView.backgroundColor = (self.popupFadeViewColor)? self.popupFadeViewColor : [UIColor blackColor];
-			fadeView.userInteractionEnabled = NO;
+			fadeView.userInteractionEnabled = YES;
             fadeView.alpha = 0.0f;
             [self.view addSubview:fadeView];
             objc_setAssociatedObject(self, &CWBlurViewKey, fadeView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
