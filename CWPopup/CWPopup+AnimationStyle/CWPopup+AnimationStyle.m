@@ -13,14 +13,15 @@
 #define ANIMATION_TIME_PRESENT 0.36f
 #define ANIMATION_TIME_DISMISS 0.28f
 #define STATUS_BAR_SIZE 22
-#define DefaultPopupPositionPercentageOffset UIOffsetZero
 
 NSString const *CWPopupKey;
 NSString const *CWBlurViewKey;
 NSString const *CWUseBlurForPopup;
 
-NSString const *CWPopupPresentingKey;
-NSString const *CWPopupPositionPercentageOffsetKey;
+NSString const *CWUseFadeViewForPopupKEY = @"CWUseFadeViewForPopupKEY";
+NSString const *CWPopupPresentingKey = @"CWPopupPresentingKey";
+NSString const *CWPopupPositionPercentageOffsetKey = @"CWPopupPositionPercentageOffsetKey";
+
 
 @interface UIViewController (CWPopupWithAnimationStyle_Private)
 
@@ -35,6 +36,7 @@ NSString const *CWPopupPositionPercentageOffsetKey;
 @end
 
 @implementation UIViewController (CWPopupWithAnimationStyle)
+@dynamic useFadeViewForPopup;
 @dynamic popupPresentingViewController;
 @dynamic popupPositionPercentageOffset;
 
@@ -140,7 +142,7 @@ NSString const *CWPopupPositionPercentageOffsetKey;
         // blurview
         if (self.useBlurForPopup) {
             [self addBlurView];
-        } else {
+        } else if(self.useFadeViewForPopup) {
             UIView *fadeView = [UIView new];
             if (UIDeviceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
                 fadeView.frame = [UIScreen mainScreen].bounds;
@@ -286,6 +288,15 @@ NSString const *CWPopupPositionPercentageOffsetKey;
 
 
 #pragma mark - getter & setter
+- (void)setUseFadeViewForPopup:(BOOL)useFadeViewForPopup {
+    objc_setAssociatedObject(self, &CWUseFadeViewForPopupKEY, [NSNumber numberWithBool:useFadeViewForPopup], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (BOOL)useFadeViewForPopup {
+	NSNumber *result = objc_getAssociatedObject(self, &CWUseFadeViewForPopupKEY);
+    return [result boolValue];
+}
+
 - (void)setPopupPresentingViewController:(UIViewController *)popupPresentingViewController {
     objc_setAssociatedObject(self, &CWPopupPresentingKey, popupPresentingViewController, OBJC_ASSOCIATION_ASSIGN); //OBJC_ASSOCIATION_RETAIN_NONATOMIC
 }
