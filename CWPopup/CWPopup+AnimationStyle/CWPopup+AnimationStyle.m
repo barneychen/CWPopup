@@ -157,6 +157,7 @@ NSString const *CWPopupPositionPercentageOffsetKey = @"CWPopupPositionPercentage
         }
         UIView *blurView = objc_getAssociatedObject(self, &CWBlurViewKey);
         // setup
+		UIView *superView = [self.view.window.subviews lastObject];
         if (style != PopupAnimationStyleNone) { // animate
             CGRect initialFrame;
 			if (style == PopupAnimationStyleFromBottom) {
@@ -175,7 +176,7 @@ NSString const *CWPopupPositionPercentageOffsetKey = @"CWPopupPositionPercentage
 			}
 			
             viewControllerToPresent.view.frame = initialFrame;
-            [self.view addSubview:viewControllerToPresent.view];
+            [superView addSubview:viewControllerToPresent.view];
             [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
                 viewControllerToPresent.view.frame = finalFrame;
                 blurView.alpha = self.useBlurForPopup ? 1.0f : 0.4f;
@@ -186,7 +187,7 @@ NSString const *CWPopupPositionPercentageOffsetKey = @"CWPopupPositionPercentage
         } else { // don't animate
             [self.popupViewController viewDidAppear:YES];
             viewControllerToPresent.view.frame = finalFrame;
-            [self.view addSubview:viewControllerToPresent.view];
+            [superView addSubview:viewControllerToPresent.view];
             [completion invoke];
         }
         // if screen orientation changed
