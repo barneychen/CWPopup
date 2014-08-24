@@ -250,7 +250,7 @@ NSString const *CWPopupPositionPercentageOffsetKey = @"CWPopupPositionPercentage
 			finalFrame = CGRectMake(initialFrame.origin.x, [UIScreen mainScreen].bounds.size.height + initialFrame.size.height/2, initialFrame.size.width, initialFrame.size.height);
 			
 		}else if (style == PopupAnimationStyleFromLeft) {
-			finalFrame = CGRectMake(initialFrame.origin.x + self.view.frame.size.width, initialFrame.origin.y, initialFrame.size.width, initialFrame.size.height);
+			finalFrame = CGRectMake(initialFrame.origin.x + self.view.frame.size.width + self.view.frame.size.width, initialFrame.origin.y, initialFrame.size.width, initialFrame.size.height);
 			
 		}else if (style == PopupAnimationStyleFromRight) {
 			finalFrame = CGRectMake(initialFrame.origin.x - self.view.frame.size.width, initialFrame.origin.y, initialFrame.size.width, initialFrame.size.height);
