@@ -32,6 +32,8 @@ NSString const *CWPopupPositionPercentageOffsetKey = @"CWPopupPositionPercentage
 - (CGRect)getEZPopupFrameForViewController:(UIViewController *)viewController;
 - (void)screenOrientationChanged;
 
+- (UIView *)getPresentSuperView;
+- (BOOL)shouldDelay;
 
 @end
 
@@ -109,8 +111,41 @@ NSString const *CWPopupPositionPercentageOffsetKey = @"CWPopupPositionPercentage
 	[self presentPopupViewController:viewControllerToPresent withAnimationStyle:style animationDuration:duration completion:completion];
 }
 
+- (UIView *)getPresentSuperView {
+    UIView *superView = [self.view.window.subviews lastObject];
+    return superView;
+}
+
+- (BOOL)shouldDelay {
+    UIView *superView = [self.view.window.subviews lastObject];
+    
+    Class class = NSClassFromString(@"SVProgressHUD");
+    if (class) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+        UIView *sharedView = [class performSelector:@selector(sharedView)];
+        UIView *overlayView = [sharedView performSelector:@selector(overlayView)];
+#pragma clang diagnostic pop
+        
+        if ([superView isEqual:overlayView]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
 - (void)presentPopupViewController:(UIViewController *)viewControllerToPresent withAnimationStyle:(PopupAnimationStyle)style animationDuration:(NSTimeInterval)duration completion:(void (^)(void))completion {
 	if (self.popupViewController == nil) {
+        UIView *superView = [self getPresentSuperView];
+        if ([self shouldDelay]) {
+            [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [[UIApplication sharedApplication] endIgnoringInteractionEvents];
+                [self presentPopupViewController:viewControllerToPresent withAnimationStyle:style animationDuration:duration completion:completion];
+            });
+            return;
+        }
+        
         // initial setup
         self.popupViewController = viewControllerToPresent;
         self.popupViewController.view.autoresizesSubviews = NO;
@@ -157,7 +192,6 @@ NSString const *CWPopupPositionPercentageOffsetKey = @"CWPopupPositionPercentage
         }
         UIView *blurView = objc_getAssociatedObject(self, &CWBlurViewKey);
         // setup
-		UIView *superView = [self.view.window.subviews lastObject];
         if (style != PopupAnimationStyleNone) { // animate
             CGRect initialFrame;
 			if (style == PopupAnimationStyleFromBottom) {
