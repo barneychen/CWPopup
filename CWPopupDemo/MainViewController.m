@@ -58,6 +58,7 @@
 - (IBAction)btnPresentPopup:(UIButton *)sender {
 
 	self.currentStyle = PopupAnimationStyleFromBottom;
+	self.popupPositionPercentageOffset = UIOffsetMake(1, 1);
 
     SamplePopupViewController *samplePopupViewController = [[SamplePopupViewController alloc] initWithNibName:@"SamplePopupViewController" bundle:nil];
     [self presentPopupViewController:samplePopupViewController animated:YES completion:^(void) {
