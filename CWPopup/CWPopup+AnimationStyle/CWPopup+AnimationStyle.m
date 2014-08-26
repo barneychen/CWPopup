@@ -112,7 +112,15 @@ NSString const *CWPopupPositionPercentageOffsetKey = @"CWPopupPositionPercentage
 }
 
 - (UIView *)getPresentSuperView {
-    UIView *superView = [self.view.window.subviews lastObject];
+    UIView * __block superView;
+	
+	[self.view.window.subviews enumerateObjectsWithOptions:(NSEnumerationReverse) usingBlock:^(UIView *subview, NSUInteger idx, BOOL *stop) {
+		if ( CGRectEqualToRect(subview.frame, self.view.window.frame)
+			|| (subview.frame.size.width == self.view.window.frame.size.height && subview.frame.size.height == self.view.window.frame.size.width) ) {
+			superView = subview;
+		}
+	}];
+	
     return superView;
 }
 
