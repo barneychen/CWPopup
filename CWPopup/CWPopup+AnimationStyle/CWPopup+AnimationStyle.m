@@ -158,7 +158,6 @@ NSString const *CWPopupPositionPercentageOffsetKey = @"CWPopupPositionPercentage
         self.popupViewController = viewControllerToPresent;
         self.popupViewController.view.autoresizesSubviews = NO;
         self.popupViewController.view.autoresizingMask = UIViewAutoresizingNone;
-        [self.popupViewController viewWillAppear:YES];
 		self.popupViewController.popupPresentingViewController = self;
         CGRect finalFrame = [self getPopupFrameForViewController:viewControllerToPresent];
         // parallax setup if iOS7+
@@ -223,11 +222,9 @@ NSString const *CWPopupPositionPercentageOffsetKey = @"CWPopupPositionPercentage
                 viewControllerToPresent.view.frame = finalFrame;
                 blurView.alpha = self.useBlurForPopup ? 1.0f : 0.4f;
             } completion:^(BOOL finished) {
-                [self.popupViewController viewDidAppear:YES];
                 [completion invoke];
             }];
         } else { // don't animate
-            [self.popupViewController viewDidAppear:YES];
             viewControllerToPresent.view.frame = finalFrame;
             [superView addSubview:viewControllerToPresent.view];
             [completion invoke];
