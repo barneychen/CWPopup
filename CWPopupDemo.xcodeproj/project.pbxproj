@@ -254,9 +254,6 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Cezary Wojcik";
 				TargetAttributes = {
-					CEE0779017C5BEB70012C196 = {
-						DevelopmentTeam = QMZH6X9D3C;
-					};
 					CEE077B017C5BEB70012C196 = {
 						TestTargetID = CEE0779017C5BEB70012C196;
 					};

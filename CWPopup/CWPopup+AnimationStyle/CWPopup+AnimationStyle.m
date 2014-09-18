@@ -84,13 +84,11 @@ NSString const *CWPopupPositionPercentageOffsetKey = @"CWPopupPositionPercentage
 	CGRect frame = viewController.view.frame;
 	CGFloat x;
 	CGFloat y;
-	if (UIDeviceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
-		x = ([UIScreen mainScreen].bounds.size.width - frame.size.width)/2;
-		y = ([UIScreen mainScreen].bounds.size.height - frame.size.height)/2;
-	} else {
-		x = ([UIScreen mainScreen].bounds.size.height - frame.size.width)/2;
-		y = ([UIScreen mainScreen].bounds.size.width - frame.size.height)/2;
-	}
+    
+    CGRect screenFrame = [self getScreenFrame];
+    x = (screenFrame.size.width - frame.size.width)/2;
+    y = (screenFrame.size.height - frame.size.height)/2;
+    
 	frame = CGRectMake(x, y, frame.size.width, frame.size.height);
 	frame = CGRectIntegral(frame);
 	
@@ -183,16 +181,18 @@ NSString const *CWPopupPositionPercentageOffsetKey = @"CWPopupPositionPercentage
         viewControllerToPresent.view.layer.cornerRadius = 5.0f;
         // blurview
         if (self.useBlurForPopup) {
-            [self addBlurView];
+            UIImageView *blurView = [UIImageView new];
+            blurView.frame = superView.bounds;
+            blurView.alpha = 0.0f;
+            blurView.image = [self getBlurredImage:[self getScreenImage]];
+            [self.view addSubview:blurView];
+            [self.view bringSubviewToFront:self.popupViewController.view];
+            objc_setAssociatedObject(self, &CWBlurViewKey, blurView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         } else {
             UIView *fadeView = [UIView new];
-            if (UIDeviceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
-                fadeView.frame = [UIScreen mainScreen].bounds;
-            } else {
-                fadeView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width);
-            }
+            fadeView.frame = superView.bounds;
             fadeView.backgroundColor = (self.popupFadeViewColor)? self.popupFadeViewColor : [UIColor blackColor];
-			fadeView.userInteractionEnabled = YES;
+            fadeView.userInteractionEnabled = YES;
             fadeView.alpha = 0.0f;
             [self.view addSubview:fadeView];
             objc_setAssociatedObject(self, &CWBlurViewKey, fadeView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -326,7 +326,6 @@ NSString const *CWPopupPositionPercentageOffsetKey = @"CWPopupPositionPercentage
 	}
 	return dismissStyle;
 }
-
 
 #pragma mark - getter & setter
 - (void)setPopupFadeViewColor:(UIColor *)popupFadeViewColor {
