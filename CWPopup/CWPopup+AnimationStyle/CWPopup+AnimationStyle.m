@@ -242,7 +242,6 @@ NSString const *CWPopupPositionPercentageOffsetKey = @"CWPopupPositionPercentage
 - (void)dismissPopupViewControllerWithAnimationStyle:(PopupAnimationStyle)style animationDuration:(NSTimeInterval)duration completion:(void (^)(void))completion {
 	
 	UIView *blurView = objc_getAssociatedObject(self, &CWBlurViewKey);
-    [self.popupViewController viewWillDisappear:YES];
 	if (style != PopupAnimationStyleNone) { // animate
 		CGRect initialFrame = self.popupViewController.view.frame;
 		
@@ -270,7 +269,6 @@ NSString const *CWPopupPositionPercentageOffsetKey = @"CWPopupPositionPercentage
             // self.popupViewController.view.transform = CGAffineTransformMakeRotation(M_PI/6);
             blurView.alpha = 0.0f;
         } completion:^(BOOL finished) {
-            [self.popupViewController viewDidDisappear:YES];
             [self.popupViewController.view removeFromSuperview];
             [blurView removeFromSuperview];
 			self.popupViewController.popupPresentingViewController = nil;
