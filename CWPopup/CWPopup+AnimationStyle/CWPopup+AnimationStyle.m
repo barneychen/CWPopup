@@ -216,6 +216,7 @@ NSString const *CWPopupPositionPercentageOffsetKey = @"CWPopupPositionPercentage
 				initialFrame = finalFrame;
 			}
 			
+            [self viewWillDisappear:YES];
             viewControllerToPresent.view.frame = initialFrame;
             [superView addSubview:viewControllerToPresent.view];
             [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
@@ -223,11 +224,14 @@ NSString const *CWPopupPositionPercentageOffsetKey = @"CWPopupPositionPercentage
                 blurView.alpha = self.useBlurForPopup ? 1.0f : 0.4f;
             } completion:^(BOOL finished) {
                 [completion invoke];
+                [self viewDidDisappear:YES];
             }];
         } else { // don't animate
+            [self viewWillDisappear:NO];
             viewControllerToPresent.view.frame = finalFrame;
             [superView addSubview:viewControllerToPresent.view];
             [completion invoke];
+            [self viewDidDisappear:NO];
         }
         // if screen orientation changed
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(screenOrientationChanged) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
@@ -269,11 +273,14 @@ NSString const *CWPopupPositionPercentageOffsetKey = @"CWPopupPositionPercentage
             // self.popupViewController.view.transform = CGAffineTransformMakeRotation(M_PI/6);
             blurView.alpha = 0.0f;
         } completion:^(BOOL finished) {
+            
+            [self viewWillAppear:YES];
             [self.popupViewController.view removeFromSuperview];
             [blurView removeFromSuperview];
 			self.popupViewController.popupPresentingViewController = nil;
             self.popupViewController = nil;
             [completion invoke];
+            [self viewDidAppear:YES];
         }];
 		
 		NSTimeInterval delay2 = 0.5 *(0.9*duration);
@@ -285,13 +292,14 @@ NSString const *CWPopupPositionPercentageOffsetKey = @"CWPopupPositionPercentage
         }];
 		
     } else { // don't animate
-        [self.popupViewController viewDidDisappear:YES];
+        [self viewWillAppear:NO];
         [self.popupViewController.view removeFromSuperview];
         [blurView removeFromSuperview];
 		self.popupViewController.popupPresentingViewController = nil;
         self.popupViewController = nil;
         blurView = nil;
         [completion invoke];
+        [self viewDidAppear:NO];
     }
     // remove observer
     [[NSNotificationCenter defaultCenter] removeObserver:self];
