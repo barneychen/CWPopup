@@ -230,6 +230,7 @@ NSString const *CWPopupPositionPercentageOffsetKey = @"CWPopupPositionPercentage
             [self viewWillDisappear:NO];
             viewControllerToPresent.view.frame = finalFrame;
             [superView addSubview:viewControllerToPresent.view];
+            blurView.alpha = self.useBlurForPopup ? 1.0f : 0.4f;
             [completion invoke];
             [self viewDidDisappear:NO];
         }
