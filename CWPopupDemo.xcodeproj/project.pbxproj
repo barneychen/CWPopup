@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A82209CD199F1BC9003890D3 /* CWPopup+AnimationStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = A82209CC199F1BC9003890D3 /* CWPopup+AnimationStyle.m */; };
 		CE2FCB9D17C72D1400359C70 /* UIViewController+CWPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2FCB9C17C72D1400359C70 /* UIViewController+CWPopup.m */; };
 		CE9AAD5417D8273100AFC34D /* mavericks.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CE9AAD5317D8273000AFC34D /* mavericks.jpg */; };
 		CEE0779517C5BEB70012C196 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEE0779417C5BEB70012C196 /* Foundation.framework */; };
@@ -39,6 +40,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A82209CB199F1BC9003890D3 /* CWPopup+AnimationStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CWPopup+AnimationStyle.h"; sourceTree = "<group>"; };
+		A82209CC199F1BC9003890D3 /* CWPopup+AnimationStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CWPopup+AnimationStyle.m"; sourceTree = "<group>"; };
 		CE2FCB9B17C72D1400359C70 /* UIViewController+CWPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+CWPopup.h"; sourceTree = "<group>"; };
 		CE2FCB9C17C72D1400359C70 /* UIViewController+CWPopup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+CWPopup.m"; sourceTree = "<group>"; };
 		CE9AAD5317D8273000AFC34D /* mavericks.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mavericks.jpg; sourceTree = "<group>"; };
@@ -91,9 +94,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A82209CA199F1BC9003890D3 /* CWPopup+AnimationStyle */ = {
+			isa = PBXGroup;
+			children = (
+				A82209CB199F1BC9003890D3 /* CWPopup+AnimationStyle.h */,
+				A82209CC199F1BC9003890D3 /* CWPopup+AnimationStyle.m */,
+			);
+			path = "CWPopup+AnimationStyle";
+			sourceTree = "<group>";
+		};
 		CE2FCB9A17C72D1400359C70 /* CWPopup */ = {
 			isa = PBXGroup;
 			children = (
+				A82209CA199F1BC9003890D3 /* CWPopup+AnimationStyle */,
 				CE2FCB9B17C72D1400359C70 /* UIViewController+CWPopup.h */,
 				CE2FCB9C17C72D1400359C70 /* UIViewController+CWPopup.m */,
 			);
@@ -241,9 +254,6 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Cezary Wojcik";
 				TargetAttributes = {
-					CEE0779017C5BEB70012C196 = {
-						DevelopmentTeam = QMZH6X9D3C;
-					};
 					CEE077B017C5BEB70012C196 = {
 						TestTargetID = CEE0779017C5BEB70012C196;
 					};
@@ -299,6 +309,7 @@
 				CEE077AA17C5BEB70012C196 /* CWPopupDemo.xcdatamodeld in Sources */,
 				CE2FCB9D17C72D1400359C70 /* UIViewController+CWPopup.m in Sources */,
 				CEE077D917C5BFF30012C196 /* SamplePopupViewController.m in Sources */,
+				A82209CD199F1BC9003890D3 /* CWPopup+AnimationStyle.m in Sources */,
 				CEE077CE17C5BEDA0012C196 /* MainViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
