@@ -1,5 +1,5 @@
 //
-//  CWPopup+AnimationStyle.h
+//  CWPopup.h
 //  CWPopupDemo
 //
 //  Created by allenlee on 2014/8/14.

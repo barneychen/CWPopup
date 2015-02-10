@@ -1,12 +1,12 @@
 //
-//  CWPopup+AnimationStyle.m
+//  CWPopup.m
 //  CWPopupDemo
 //
 //  Created by allenlee on 2014/8/14.
 //  Copyright (c) 2014年 Cezary Wojcik. All rights reserved.
 //
 
-#import "CWPopup+AnimationStyle.h"
+#import "CWPopup.h"
 #import <objc/runtime.h>
 
 //#define ANIMATION_TIME 0.5f
