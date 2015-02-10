@@ -9,7 +9,7 @@
 #import "MainViewController.h"
 #import "SamplePopupViewController.h"
 //#import "UIViewController+CWPopup.h"
-#import "CWPopup+AnimationStyle.h"
+#import "CWPopup.h"
 
 @interface MainViewController ()
 - (IBAction)btnPresentPopup:(UIButton *)sender;
