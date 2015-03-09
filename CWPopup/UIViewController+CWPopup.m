@@ -172,7 +172,7 @@ NSString const *CWPopupViewOffset = @"CWPopupViewOffset";
     BOOL isIOS8Later = ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0);
     
     CGRect frame;
-    if (isIOS8Later || UIDeviceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
+    if (UIDeviceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation) || NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1) {
         frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
     } else {
         frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width);
@@ -207,8 +207,11 @@ NSString const *CWPopupViewOffset = @"CWPopupViewOffset";
 
 - (void)addBlurView {
     UIImageView *blurView = [UIImageView new];
-    CGRect frame = [self getScreenFrame];
-    blurView.frame = frame;
+    if (UIDeviceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation) || NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1) {
+        blurView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+    } else {
+        blurView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width);
+    }
     blurView.alpha = 0.0f;
     blurView.image = [self getBlurredImage:[self getScreenImage]];
     [self.view addSubview:blurView];
@@ -253,8 +256,11 @@ NSString const *CWPopupViewOffset = @"CWPopupViewOffset";
             [self addBlurView];
         } else {
             UIView *fadeView = [UIImageView new];
-            CGRect frame = [self getScreenFrame];
-            fadeView.frame = frame;
+            if (UIDeviceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation) || NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1) {
+                fadeView.frame = [UIScreen mainScreen].bounds;
+            } else {
+                fadeView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width);
+            }
             fadeView.backgroundColor = [UIColor blackColor];
             fadeView.alpha = 0.0f;
             [self.view addSubview:fadeView];
@@ -328,9 +334,13 @@ NSString const *CWPopupViewOffset = @"CWPopupViewOffset";
     CGRect frame = viewController.view.frame;
     CGFloat x;
     CGFloat y;
-    CGRect screenFrame = [self getScreenFrame];
-    x = (screenFrame.size.width - frame.size.width)/2;
-    y = (screenFrame.size.height - frame.size.height)/2;
+    if (UIDeviceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation) || NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1) {
+        x = ([UIScreen mainScreen].bounds.size.width - frame.size.width)/2;
+        y = ([UIScreen mainScreen].bounds.size.height - frame.size.height)/2;
+    } else {
+        x = ([UIScreen mainScreen].bounds.size.height - frame.size.width)/2;
+        y = ([UIScreen mainScreen].bounds.size.width - frame.size.height)/2;
+    }
     return CGRectMake(x + viewController.popupViewOffset.x, y + viewController.popupViewOffset.y, frame.size.width, frame.size.height);
 }
 
@@ -339,8 +349,11 @@ NSString const *CWPopupViewOffset = @"CWPopupViewOffset";
     UIView *blurView = objc_getAssociatedObject(self, &CWBlurViewKey);
     [UIView animateWithDuration:ANIMATION_TIME animations:^{
         self.popupViewController.view.frame = [self getPopupFrameForViewController:self.popupViewController];
-        CGRect frame = [self getScreenFrame];
-        blurView.frame = frame;
+        if (UIDeviceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation) || NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_7_1) {
+            blurView.frame = [UIScreen mainScreen].bounds;
+        } else {
+            blurView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width);
+        }
         if (self.useBlurForPopup) {
             [UIView animateWithDuration:1.0f animations:^{
                 // for delay
